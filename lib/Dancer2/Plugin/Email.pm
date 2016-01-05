@@ -2,7 +2,6 @@ package Dancer2::Plugin::Email;
 
 # VERSION
 
-use Dancer2 qw(:syntax debug warning);
 use Dancer2::Plugin;
 use Email::Sender::Simple 'sendmail';
 use Email::Date::Format 'email_date';
@@ -49,7 +48,7 @@ register email => sub {
             if (ref($attachment) eq 'HASH') {
                 %mime = %$attachment;
                 unless ($mime{Path}) {
-                    warning "No Path provided for this attachment!";
+                    $dsl->app->warning("No Path provided for this attachment!");
                     next;
                 };
                 $mime{Encoding} ||= 'base64';
@@ -77,7 +76,7 @@ register email => sub {
         if ($transport_redirect) {
             $transport_class = 'Email::Sender::Transport::Redirect';
             load $transport_class;
-            debug "Redirecting email to $transport_redirect.";
+            $dsl->app->debug("Redirecting email to $transport_redirect.");
             $transport = $transport_class->new(
                 transport        => $transport,
                 redirect_address => $transport_redirect
