@@ -4,14 +4,13 @@ Dancer2::Plugin::Email - Simple email sending for Dancer2 applications
 
 # VERSION
 
-version 0.0001
+version 0.0002
 
 # SYNOPSIS
 
     use Dancer2;
     use Dancer2::Plugin::Email;
     
-
     post '/contact' => sub {
         email {
             from    => 'bob@foo.com',
@@ -24,9 +23,9 @@ version 0.0001
 
 # DESCRIPTION
 
-This plugin tries to make sending emails from [Dancer2](http://search.cpan.org/perldoc?Dancer2) applications as simple
+This plugin tries to make sending emails from [Dancer2](https://metacpan.org/pod/Dancer2) applications as simple
 as possible.
-It uses [Email::Sender](http://search.cpan.org/perldoc?Email::Sender) under the hood.
+It uses [Email::Sender](https://metacpan.org/pod/Email::Sender) under the hood.
 In a lot of cases, no configuration is required.
 For example, if your app is hosted on a unix-like server with sendmail
 installed, calling `email()` will just do the right thing.
@@ -51,7 +50,7 @@ This module by default exports the single function `email`.
 This function sends an email.
 It takes a single argument, a hashref of parameters.
 Default values for the parameters may be provided in the headers section of
-the ["CONFIGURATION"](#CONFIGURATION).
+the ["CONFIGURATION"](#configuration).
 Paramaters provided to this function will override the corresponding
 configuration values if there is any overlap.
 An exception is thrown if sending the email fails,
@@ -95,7 +94,7 @@ so wrapping calls to `email` with try/catch is recommended.
 # CONFIGURATION
 
 No configuration is necessarily required.
-[Email::Sender::Simple](http://search.cpan.org/perldoc?Email::Sender::Simple) tries to make a good guess about how to send the
+[Email::Sender::Simple](https://metacpan.org/pod/Email::Sender::Simple) tries to make a good guess about how to send the
 message.
 It will usually try to use the sendmail program on unix-like systems
 and SMTP on Windows.
@@ -104,7 +103,7 @@ Only one transport may be configured.
 For documentation for the parameters of the transport, see the corresponding
 Email::Sender::Transport::\* module.
 For example, the parameters available for the SMTP transport are documented
-here ["ATTRIBUTES" in Email::Sender::Transport::SMTP](http://search.cpan.org/perldoc?Email::Sender::Transport::SMTP#ATTRIBUTES).
+here ["ATTRIBUTES" in Email::Sender::Transport::SMTP](https://metacpan.org/pod/Email::Sender::Transport::SMTP#ATTRIBUTES).
 
 You may also provide default headers in the configuration:
 
@@ -175,8 +174,8 @@ Example:
 
 # SEE ALSO
 
-- [Email::Sender](http://search.cpan.org/perldoc?Email::Sender)
-- [MIME::Entity](http://search.cpan.org/perldoc?MIME::Entity)
+- [Email::Sender](https://metacpan.org/pod/Email::Sender)
+- [MIME::Entity](https://metacpan.org/pod/MIME::Entity)
 
 # AUTHOR
 
