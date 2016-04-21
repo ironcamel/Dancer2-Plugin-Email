@@ -48,7 +48,7 @@ register email => sub {
             if (ref($attachment) eq 'HASH') {
                 %mime = %$attachment;
                 unless ($mime{Path}) {
-                    $dsl->app->warning("No Path provided for this attachment!");
+                    $dsl->app->log('warning', "No Path provided for this attachment!");
                     next;
                 };
                 $mime{Encoding} ||= 'base64';
@@ -76,7 +76,7 @@ register email => sub {
         if ($transport_redirect) {
             $transport_class = 'Email::Sender::Transport::Redirect';
             load $transport_class;
-            $dsl->app->debug("Redirecting email to $transport_redirect.");
+            $dsl->app->log('debug', "Redirecting email to $transport_redirect.");
             $transport = $transport_class->new(
                 transport        => $transport,
                 redirect_address => $transport_redirect
