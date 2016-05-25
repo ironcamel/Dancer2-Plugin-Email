@@ -4,7 +4,7 @@ Dancer2::Plugin::Email - Simple email sending for Dancer2 applications
 
 # VERSION
 
-version 0.0002
+version 0.0003
 
 # SYNOPSIS
 
@@ -179,7 +179,7 @@ Example:
 
 # AUTHOR
 
-Naveed Massjouni <naveed@vt.edu>
+Naveed Massjouni &lt;naveed@vt.edu>
 
 # COPYRIGHT AND LICENSE
 
