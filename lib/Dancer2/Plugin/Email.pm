@@ -47,12 +47,14 @@ register email => sub {
             my %mime;
             if (ref($attachment) eq 'HASH') {
                 %mime = %$attachment;
-                unless ($mime{Path}) {
-                    $dsl->app->log('warning', "No Path provided for this attachment!");
+                unless ($mime{Path} || $mime{Data}) {
+                    $dsl->app->log('warning', "No Path or Data provided for this attachment!");
                     next;
                 };
-                $mime{Encoding} ||= 'base64';
-                $mime{Type} ||= File::Type->mime_type($mime{Path}),
+                if ( $mime{Path} ) {
+                    $mime{Encoding} ||= 'base64';
+                    $mime{Type} ||= File::Type->mime_type( $mime{Path} ),;
+                }
             } else {
                 %mime = (
                     Path     => $attachment,
