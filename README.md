@@ -172,6 +172,11 @@ Example:
         multipart => 'related'
     };
 
+The `attach` value accepts either a single attachment or an arrayref
+of attachment. Each attachment may be a scalar, with the path of the
+file to attach, or an hashref, in which case the hashref is passed to
+the [Mime::Entity](https://metacpan.org/pod/Mime::Entity)'s `attach` method.
+
 # SEE ALSO
 
 - [Email::Sender](https://metacpan.org/pod/Email::Sender)
@@ -179,7 +184,7 @@ Example:
 
 # AUTHOR
 
-Naveed Massjouni &lt;naveed@vt.edu>
+Naveed Massjouni <naveed@vt.edu>
 
 # COPYRIGHT AND LICENSE
 
