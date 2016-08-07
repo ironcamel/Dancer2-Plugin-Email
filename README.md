@@ -4,7 +4,7 @@ Dancer2::Plugin::Email - Simple email sending for Dancer2 applications
 
 # VERSION
 
-version 0.0003
+version 0.0100
 
 # SYNOPSIS
 
