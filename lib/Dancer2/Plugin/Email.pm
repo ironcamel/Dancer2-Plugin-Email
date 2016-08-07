@@ -2,6 +2,9 @@ package Dancer2::Plugin::Email;
 
 # VERSION
 
+use strict;
+use warnings;
+
 use Dancer2::Plugin;
 use Email::Sender::Simple 'sendmail';
 use Email::Date::Format 'email_date';
