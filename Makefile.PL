@@ -27,7 +27,9 @@ my %WriteMakefileArgs = (
     "Module::Load" => 0,
     "Net::SMTP::SSL" => "1.01",
     "Net::SSLeay" => "1.58",
-    "Test::WWW::Mechanize::PSGI" => "0.35"
+    "Test::WWW::Mechanize::PSGI" => "0.35",
+    "strict" => 0,
+    "warnings" => 0
   },
   "TEST_REQUIRES" => {
     "Dancer2" => 0,
@@ -38,9 +40,7 @@ my %WriteMakefileArgs = (
     "Test::More" => 0,
     "Test::WWW::Mechanize::PSGI" => "0.35",
     "blib" => "1.01",
-    "lib" => 0,
-    "strict" => 0,
-    "warnings" => 0
+    "lib" => 0
   },
   "VERSION" => "0.0100",
   "test" => {
