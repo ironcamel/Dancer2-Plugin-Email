@@ -5,6 +5,7 @@ package Dancer2::Plugin::Email;
 use strict;
 use warnings;
 
+use Dancer2::Core::Types qw/HashRef/;
 use Dancer2::Plugin;
 use Email::Sender::Simple 'sendmail';
 use Email::Date::Format 'email_date';
@@ -12,14 +13,26 @@ use File::Type;
 use MIME::Entity;
 use Module::Load 'load';
 
-register email => sub {
-    my ($dsl, $params) = @_;
+has headers => (
+    is          => 'ro',
+    isa         => HashRef,
+    from_config => sub { +{} },
+);
+
+has transport => (
+    is          => 'ro',
+    isa         => HashRef,
+    from_config => sub { +{} },
+);
+
+plugin_keywords 'email';
+
+sub email {
+    my ($plugin, $params) = @_;
     $params ||= {};
     my $multipart = delete $params->{multipart};
     my $extra_headers = delete($params->{headers}) || {};
-    my $conf = plugin_setting;
-    my $conf_headers = $conf->{headers} || {};
-    my %headers = ( %$conf_headers, %$params, %$extra_headers );
+    my %headers = ( %{ $plugin->headers }, %$params, %$extra_headers );
     my $attach = $headers{attach};
     my $sender = delete $headers{sender};
     if (my $type = $headers{type}) {
@@ -51,7 +64,7 @@ register email => sub {
             if (ref($attachment) eq 'HASH') {
                 %mime = %$attachment;
                 unless ($mime{Path} || $mime{Data}) {
-                    $dsl->app->log('warning', "No Path or Data provided for this attachment!");
+                    $plugin->app->log('warning', "No Path or Data provided for this attachment!");
                     next;
                 };
                 if ( $mime{Path} ) {
@@ -70,9 +83,8 @@ register email => sub {
     }
 
     my $transport;
-    my $conf_transport = $conf->{transport} || {};
-    if (my ($transport_name) = keys %$conf_transport) {
-        my $transport_params = $conf_transport->{$transport_name} || {};
+    if (my ($transport_name) = keys %{ $plugin->transport }) {
+        my $transport_params = $plugin->transport->{$transport_name} || {};
         my $transport_class = "Email::Sender::Transport::$transport_name";
         my $transport_redirect = $transport_params->{redirect_address};
         load $transport_class;
@@ -81,7 +93,7 @@ register email => sub {
         if ($transport_redirect) {
             $transport_class = 'Email::Sender::Transport::Redirect';
             load $transport_class;
-            $dsl->app->log('debug', "Redirecting email to $transport_redirect.");
+            $plugin->app->log('debug', "Redirecting email to $transport_redirect.");
             $transport = $transport_class->new(
                 transport        => $transport,
                 redirect_address => $transport_redirect
@@ -92,9 +104,6 @@ register email => sub {
     $sendmail_arg{from} = $sender if defined $sender;
     return sendmail $email, \%sendmail_arg;
 };
-
-
-register_plugin;
 
 # ABSTRACT: Simple email sending for Dancer2 applications
 
