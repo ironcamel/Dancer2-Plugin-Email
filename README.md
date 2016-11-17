@@ -4,7 +4,7 @@ Dancer2::Plugin::Email - Simple email sending for Dancer2 applications
 
 # VERSION
 
-version 0.0100
+version 0.0200
 
 # SYNOPSIS
 
@@ -188,7 +188,7 @@ Naveed Massjouni <naveed@vt.edu>
 
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2014 by Naveed Massjouni.
+This software is copyright (c) 2016 by Naveed Massjouni.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
