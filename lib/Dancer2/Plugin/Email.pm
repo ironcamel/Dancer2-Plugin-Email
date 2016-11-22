@@ -11,7 +11,7 @@ use Email::Sender::Simple 'sendmail';
 use Email::Date::Format 'email_date';
 use File::Type;
 use MIME::Entity;
-use Module::Load 'load';
+use Module::Runtime 'use_module';
 
 has headers => (
     is          => 'ro',
@@ -87,14 +87,12 @@ sub email {
         my $transport_params = $plugin->transport->{$transport_name} || {};
         my $transport_class = "Email::Sender::Transport::$transport_name";
         my $transport_redirect = $transport_params->{redirect_address};
-        load $transport_class;
-        $transport = $transport_class->new($transport_params);
+        $transport = use_module($transport_class)->new($transport_params);
 
         if ($transport_redirect) {
             $transport_class = 'Email::Sender::Transport::Redirect';
-            load $transport_class;
             $plugin->app->log('debug', "Redirecting email to $transport_redirect.");
-            $transport = $transport_class->new(
+            $transport = use_module($transport_class)->new(
                 transport        => $transport,
                 redirect_address => $transport_redirect
             );
