@@ -7,14 +7,17 @@ use lib 't/lib';
 
 use EmailTest;
 use Test::More;
+use Plack::Test;
+use HTTP::Request::Common;
 
-use Test::WWW::Mechanize::PSGI;
+my $app = EmailTest->to_app;
+isa_ok $app, 'CODE', 'EmailTest app';
 
-my $mech = Test::WWW::Mechanize::PSGI->new(
-    app =>  EmailTest->to_app
-);
+my $test = Plack::Test->create( $app );
 
-$mech->get_ok( '/contact' );
-$mech->content_like( qr'Email sent.' );
+my $res = $test->request( GET '/contact' );
+ok $res->is_success, "GET /contact request is_success";
+like $res->content,  qr'Email sent.',
+  "... and response is 'Email sent.' as expected.";
 
 done_testing;
